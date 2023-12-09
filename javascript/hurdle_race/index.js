@@ -32,7 +32,11 @@ function readLine() {
  */
 
 function hurdleRace(k, height) {
-    return Math.max(...height) - k;
+    let potions = Math.max(...height) - k;
+    if (potions < 0) {
+        potions = 0;
+    }
+    return potions;
 }
 
 function main() {
