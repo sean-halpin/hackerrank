@@ -1,0 +1,12 @@
+{
+    "name": "electronics_shop",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "test": "npx jest index.test.js"
+    },
+    "author": "",
+    "license": "ISC"
+}
