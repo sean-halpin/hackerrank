@@ -88,3 +88,9 @@ Very bad - a loop for each element for example.
 2. Data Structures
 3. Function Calls - Stack Frames
 4. Allocations
+
+# Summary 
+
+Big-O notation is used to describe the time complexity of an algorithm, indicating how the algorithm's performance scales with the size of the input. It provides a way to analyze and compare the efficiency of different algorithms. The notation is represented as O(f(n)), where f(n) represents the upper bound of the algorithm's time complexity.
+
+In summary, Big-O notation helps us understand how the runtime of an algorithm grows as the input size increases. It allows us to make informed decisions about algorithm selection and optimization based on their efficiency.
