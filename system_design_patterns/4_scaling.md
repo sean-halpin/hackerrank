@@ -76,7 +76,7 @@ To prevent downtime & reduce latency we must scale
  - Testability
    - Ease of testing components
  - **High Concurrent Users**
- - **Scalabilit**
+ - **Scalability**
  - **Reliability**
   
 ## Architectures
