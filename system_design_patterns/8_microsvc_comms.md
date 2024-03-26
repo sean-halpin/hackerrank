@@ -197,3 +197,197 @@ client - HTTP GET /products (200 OK) > Product - DB
     - {"productId": 4, "name": "iPhone"}
 - rule 4
   - REST APIS perform operations on resource with HTTP Verbs
+
+- A RESTful API design for E-Commerce App
+  - Customer, Order, Product
+  - How should we design api to get customer orders?
+    - e-shop.com/customers/6/orders
+  - I want products for order 22 for customer 6
+    - e-shop.com/customers/6/orders/22/products , WRONG!
+  - Complexity will become difficult to maintain
+  - Keep URIs simple
+    - Maximum Complexity should be;
+      - "collection/item/collection"
+    - Instead 
+      - GET /customers/6/orders
+      - GET /orders/22/products
+
+![RESTFUL](./media/restful_http.png)
+
+- Microservices dont share code and dont share data stores
+  - Comms through APIs for data operations. 
+    - GET /api/customer/1
+      - Fetch from DB
+        - return JSON
+
+# API Versioning in RESTful APIS
+
+- API changes may break comms for calling services
+- New features or bug fixes may require API changes
+- API changes should be backward compatible
+  - Do not break comms
+- Use roll-out or canary deployments on k8s
+- Use container orchestration to roll-back if there is a problem
+- Microservices should support at least 2 versions and be backwards compatible
+
+# Refactor our design
+
+![REST](./media/restful_design.png)
+
+## RESTful Resources
+
+![REST](./media/restful_resources.png)
+
+# Evaluate
+
+- Benefits
+  - Simple from browsers
+  - HTTP Protocol
+  - HTTP GET easy caching options
+  - JSON respresentation request-responses
+- Drawbacks
+    - Multiple requests needed for relational data
+    - Chatty communication when enriching data
+
+# Problem 
+
+## N+1 problem
+
+- Problems
+  - Business teams want to see relational  data on screen. 
+  - Customers , Oders, Products
+  - REST: /customer/3/orders/4/products
+  - How can we get products from order X for customer Y ?
+  - Very chatty for enriching data
+- Solutions
+  - GraphQL API Design
+  - Structural relational data with querying GraphQL
+
+# Graphql
+
+- Is a query & mutation language for APIs
+- Client can define structure of data req'd
+- Provides a complete desc of data in the API
+- Provides many data sources in a single request
+  - reducing the numer of network calls
+- devs can ask for exactly what they need & get predictable results
+
+- Evolve APIs without versions
+  - Add new fields and types without impacting existing queries
+
+## Schemas, Queries, Mutations & Resolvers
+
+- A schema dscribes all possible data in the GQL API
+  - Schema is made of objects which define the object, fields and data types
+- Client sends queries, queries are validated against the schema & server executes valid queries 
+- Resolvers are funcs that attach to fields in a schema
+- Mutation is a gql op that allows insertion of new data or modify existing data. 
+
+## GraphQL Pros & Cons
+
+- Pros
+  - Very fast in comparison to REST
+    - Reduce multiple calls to get data & allows client to query by only specific fields
+  - Single Request
+    - No overfetching
+  - Strongly Typed
+    - Reduce  miscommunication between client/server
+  - Hierarchical Structure
+    - Relationships easy to define
+  - Easy Evolution
+    - API can get more fields and types without breaking existing queries
+- Cons
+  - Query complexity
+  - Single query language
+  - I is possible to request deeply nested data which may cause perf problems
+    - Consider max query deptch, query complexity
+  - Caching
+    - More complicated to implement a simple cache because each query can be different
+  - Graphql rate limiting more complicated
+
+## REST v GraphQL
+
+- REST is defacto standard
+  - Inflexibile for rapidly changing requirements
+- GraphQL was developed for more flexibility & efficiency that solves shortcomings of REST like n+1 relational data problem
+- REST is popular, simple & scalable
+- Graphql is more complex, main cons are error reporting, caching & n+1
+- Graphql solves over/under-fetching problem
+  - REST can't fetch relational data
+
+![REST_V_GRAPHQL](./media/restful_v_graphql.png)
+
+# Problem
+
+Inter-service comms heavy load on network
+
+ - Public APIs should use HTTP
+   - Restful or GraphQL 
+ - Backend APIs should use inter-service comms
+   - gRPC for network perf
+     - serialization 
+
+## gRPC
+
+- google RPC remote procedure call
+  - HTTP/2 protocol to transport binary msgs
+  - Protocol Buggers Protobuf allow interface definition
+  - Geenrates cross-platform client and server bindings
+    - Tech agnostic
+  - Most commonly used to communicate in microservices style architecture
+
+- like a direct function call on remote system
+
+- Benefits og gRPC
+  - Using HTTP/2 
+    - 30/40% perf
+  - Bin serialization
+  - Multi language support
+  - Bi-directional streaming ops
+  - SSL/TLS
+  - Auth methods
+
+- Use cases of gRPC
+  - Sync backend microsvc to microsvc comms
+  - Polyglot envs
+  - low latecncy high thrughput comms
+  - point to point real time comms
+  - network constrained envs
+    - payloads smaller than JSON
+
+## gRPC use in microsvcs 
+
+![grpc](./media/grpc.png)
+
+# WebSocket API
+
+ - Interactive 2 way comms session
+ - Send msg to server & recieves event based respoonses
+ - Websockets good for handling high scale data transfers between server client
+ - Bidirectional, ws://
+ - WebSocket is stateful 
+   - when client or server closes connection
+   - it is terminated on both ends
+
+- When to use
+  - Real-time app development
+    - Stock Trading Apps
+    - Game Apps
+    - Chat Apps
+
+# Problem
+
+- Direct Client to Service Comms
+- Chatty Clients
+  - Hard to manage invocations
+
+# Solutions
+
+- Well Defined API design
+- Microservices Comm Patterns
+
+# Steps
+
+- API Gateway
+- BFF(backend for frontend)
+- Pub/Sub
