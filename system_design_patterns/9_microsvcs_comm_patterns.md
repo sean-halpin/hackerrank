@@ -75,4 +75,51 @@
    - Increases deploy & maintenance complexity
  - Gateway offloading pattern offers to manage all those cross-cutting concerns into api gateways. 
 
- 
+ # Risk
+
+  - Single API gateway could be a sinlge point of failure
+    - Use BFF, backend for frontend pattern
+      - Multiple API gateways per client
+
+# Evaluate
+
+- Benefits
+  - Reverse Proxy, Aggregation, Routing
+  - Abstraction of BE
+  - X cutting concerns
+  - Reduce chattiness
+- Drawbacks
+  - Single POF
+  - Complexity in Gateway
+  - Bottleneck
+
+# Problem 
+
+- Many different clients
+  - Customer, Admin, Web, Mobile
+- Each client may have different use cases and differnt calls & aggregations
+- Clients may want different format data
+
+# Solutions
+
+- Client focused gateways
+- BFF Backend for Frontend Pattern
+
+# BFF
+
+- Seperate API Gateway for each specific front end
+  - Grouping by client type
+
+![BFF](./media/bff.png)
+
+ - Benefits
+   - Client focused Interfaces
+   - Minimal logic on the frontend code
+   - Streamline data representation
+   - Well-focused interface for the frontend
+  client applications
+ - Drawbacks
+   - Increased Latency
+   - Good for large-scaled microservices
+  application which has several client
+  applications
