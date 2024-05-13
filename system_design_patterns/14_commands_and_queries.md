@@ -89,4 +89,79 @@ Cross Service Queries and Write Command on Distributed Scaled Databases
 
 - CQRS is used to avoid complex queries and get rid of inefficient joins
 - Seperates read & write ops by seperating them into databases for read & write
-- 
+  - Commands: Changing State of data in app
+  - Queries: Handling complex join ops, fetching data, no data change
+- Large Scaled Microservice Arch needs to manage high-volume data req's
+- Single database for services can cause bottlenecks
+- Using both CQRS & Eventual Consistency, can improve app performance. 
+- CQRS, offers sererating read & write of data to allow for scaling read & write independently
+
+- Monolith has a single db, performing complex join queries & CRUD ops
+  - This can become un-manageable as load increases
+  - When the app needs to do a tx across 10 tables, all are locked & latency goes up. 
+  - Splitting Reading & Writing to DB we can have multiple strategies
+    - e.g. RDBMS for write, NoSQL for read
+  - SoC , Seperation of Concerns Principle
+- General approach 
+  - READ DB, uses NoSQL with denormalised data
+  - WRITE DB, uses RDBMS with fully normalised data, with strong consistency
+
+- App mostly reading is a read-incentive application
+- Read & Write are asymmetrical with different perf & scale req's
+- To improve query performance the read operation performs queries from a denomalized materialized view to avoid expensive joins & locks
+- Write Ops or Command, perform commands into normaly RDBMS
+  - Supporting ACID Tx & Strong data consistency 
+- Commands can be handled with a message broker system to process cmds async
+- Queries never modify, always return JSON obect with DTO objects. 
+
+### Benefits & Drawbacks of CQRS
+
+- Benefits
+  - Scalability
+    - READ & WRITE DBs can be scaled independently
+    - READ DB follows denormalized data to perform complex join queries
+    - If application is read-incentive app, we can scale read database more than write db
+  - Query Performance
+    - READ DB contains denormalized data that reduce to complex & long running join queries. Complex logic goes into write db.
+  - Maintainability & Flexibility
+    - READ & Write changes to logic & schema may not directly affect one another. 
+- Drawbacks
+  - Complexity, added
+  - Eventual Consistency
+    - WRITE data may not be reflected in READ data
+  - If we need strong consistency CQRS is not an option
+
+## Event Sourcing
+
+- Apps typically save latest state of data in a DB
+- In large scale, apps with a lot of updates can lead to poor db performance, reponsiveness & scale limits
+- Event Sourcing pattern offers to persist each action that affects data to an Event Store DB. Where each action is an event. 
+- Instead of saving latest state, we have a list of sequentially events. 
+- Instead of updating data, we insert new event in Event Store. 
+- Each insert to event store, should also create an event on an event bus. 
+- The events on the event bus can be consumed by apps to create materialized views of their own. 
+- Event Store is the Source of Truth in the system. 
+- We also now have ability to REPLAY events. 
+
+## CQRS with Event Sourcing
+
+CQRS and Event Sourcing combined for best performance and eventual consistency
+![cqrs](./media/cqrs_event_sourcing.png)
+
+## Eventual Consistency Principle
+
+- Eventual Consistency is used for systems that prefer high availability over strong consistency 
+- System will be consistent eventually 
+- Consistency 
+  - Strict
+    - Saved data is reflected for all clients
+  - Eventual
+    - It will take some time to be seen for all clients
+  
+- CQRS with Event Sourcing Patterns
+  - User actions become events in Event Store
+  - Data will get to the Reading database via message brokers, or pub/sub
+  - Data will be denormalized into materialized view database for querying 
+
+- CAP 
+  - Choose C or P in an Available system
