@@ -139,4 +139,78 @@
 - What is sharding?
   - Sharding is the process of partitioning a database into smaller, more manageable pieces (shards) that can be distributed across multiple servers for scalability.
 
+# Video Streaming Platform
+
+![streaming](./image2.png)
+
 ## gRPC
+
+- What is gRPC?
+  - RPC lib uses http2 for transport and protobuf for serialization
+- How does gRPC compare to REST?
+  - gRPC uses HTTP2, utilisation of binary data, compressed headers and bi-directional comms
+  - More efficient than REST, which is Text based, single message per connection, uses HTTP verbs to indicate intent
+- What is protobuf?
+  - Language agnostic serialization standard 
+- gRPC main features?
+  - Serialization, auth, remote procedure call, req/resp
+- What are the different types of RPCs supported by gRPC?
+  - Unary, Simple Request/Response
+  - Unary RPC
+  - Server Streaming RPC
+  - Client Streaming RPC
+  - Bi-directional Streaming RPC
+- How does gRPC handle service definitions?
+  - Defined in a .proto file using protobuf syntax
+- What is the role of the .proto file in gRPC?
+  - Defined the service methods, req and resp message formats
+  - Used to generate client and server stubs in multiple languages
+- How does gRPC handle authentication?
+  - Supports SSL/TLS
+  - Supports OAth2 integration
+- What are the common use cases for gRPC?
+  - Microservices comms
+  - realtime data streaming
+  - interprocess comms
+- How does gRPC compare to GraphQL?
+  - gRPC focus is high perf, strong typing and streaming support
+  - GraphQL focus on flexible querying & schema evolution
+
+# Search Catalogue
+
+![system](./image3.png)
+
+## GraphQL
+
+- What is GraphQL?
+  - A query language for apis and runtime for executing those queries
+- Difference between REST & GraphQL
+  - REST has fixed endpoints for each resource, GraphQL has a single endpoint and you ask for what you want
+- What is a GraphQL schema?
+  - A schema defines types & structure of data available via the api, incl. queries & mutations
+- What is a GraphQL query?
+  - A ready only operatation, requesting specific data 
+- What is a GraphQL mutation?
+  - Operation to modify data on the server
+  - Similar to POST, PUT, PATCH, DELETE in REST
+- What is a resolver in GraphQL?
+  - A resolver is a definition in code to resolve a value for a type or field in the graphQL schema
+- How does GraphQL handle versioning?
+  - Typically, schema should evolve adding new fields and avoid breaking changes
+  - If breaking changes are needed, it's possible to maintain old fields and communicate intent of deprecation to clients
+- What are some benefits of using GraphQL?
+  - Efficient fetching of data(avoid overfetch), strong typing, real-time updates, imroved developer experience
+  - Ease of debugging API, via web UI in test envs
+- What is introspection in GraphQL?
+  - The API structure itself is qeuryable for types and fields
+- How does GraphQL handle authentication and authorization?
+  - Similar to REST, using SSL & OAuth
+- 
+
+## Opensearch
+
+- What is Opensearch?
+  - OpenSearch is a distributed search and analytics engine that enables users to perform real-time data analysis and visualization on large datasets.
+- Relationship between Opensearch & Elasticsearch
+  - OpenSearch is a community-driven fork of Elasticsearch and Kibana, created after Elasticsearch's parent company changed its licensing model. It offers the same core features and APIs as Elasticsearch.
+- 
