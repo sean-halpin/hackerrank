@@ -49,3 +49,4 @@ if __name__ == "__main__":
     assert l3.next.next.next.next.next.val == 4
     assert l3.next.next.next.next.next.next == None
     print("Example 1 is correct")
+    
