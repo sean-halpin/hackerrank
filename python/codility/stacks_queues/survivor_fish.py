@@ -19,4 +19,4 @@ def solution(A, B):
                 if not downstream_fish:
                     survivors +=1
                 
-    return survivors
+    return survivors + len(downstream_fish)
