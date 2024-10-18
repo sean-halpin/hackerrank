@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service # The kind field is set to Service, which indicates that this is a service manifest.
+metadata: # The metadata field is used to specify the name of the service.
+  name: second-app-service
+spec: # The spec field is where you define the service type and the port that the service will listen on.
+  selector: # The selector field is used to specify the pods that the service will target.
+    app: second-app # The service will target the pods with the label app: second-app.
+    tier: backend
+  ports: # The ports field is used to specify the port that the service will listen on.
+    - protocol: TCP
+      port: 80
+      targetPort: 8080 # The targetPort field is used to specify the port that the service will forward traffic to.
+  type: LoadBalancer # The service is a LoadBalancer type, which means that it will be exposed to the outside world.
